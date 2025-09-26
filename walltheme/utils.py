@@ -2,6 +2,8 @@ import logging
 import os
 import sys
 
+from PIL import Image
+
 
 def split_theme(theme: dict):
 	"""
@@ -25,12 +27,25 @@ def split_theme(theme: dict):
 	return wallpaper, special, palette
 
 
-def get_image(image):
+def is_valid_image(image):
 	"""
-	Checks if the image is valid and gets its absolute path if true
+	Checks if image is valid
 	"""
 
-	if not os.path.isfile(image):
+	try:
+		with Image.open(image) as img:
+			img.verify()
+			return True
+	except (IOError, SyntaxError):
+		return False
+
+
+def get_image(image):
+	"""
+	Gets the image's absolute path if it is valid
+	"""
+
+	if not os.path.isfile(image) or not is_valid_image(image):
 		logging.error('No valid image found!')
 		sys.exit(1)
 

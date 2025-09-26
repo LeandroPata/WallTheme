@@ -59,4 +59,4 @@ def render_templates(
 		output = output_dir / rel.with_suffix('')
 		output.parent.mkdir(parents=True, exist_ok=True)
 		output.write_text(rendered, encoding='utf-8')
-		print(f'Rendered: {template_path} -> {output}')
+		print(f'Generated {template_path} to {output}')

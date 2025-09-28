@@ -1,8 +1,15 @@
+"""
+Utility functions
+"""
+
 import logging
 import os
+import shutil
 import sys
 
 from PIL import Image
+
+from .settings import MODULE_DIR, TEMPLATE_DIR
 
 
 def split_theme(theme: dict):
@@ -53,9 +60,36 @@ def get_image(image):
 	return image_path
 
 
+def init_templates():
+	"""
+	Initializes the included templates in the correct location
+	"""
+
+	module_templates = os.path.join(MODULE_DIR, 'templates')
+
+	for template in os.listdir(module_templates):
+		template_path = os.path.join(module_templates, template)
+		shutil.copy2(template_path, TEMPLATE_DIR)
+		print(f'Generated {template} in {TEMPLATE_DIR}')
+
+
 def create_dir(dir_path):
 	"""
-	Util function to create directories
+	Util function to create a directory
 	"""
 
 	os.makedirs(dir_path, exist_ok=True)
+
+
+def check_dir_empty(dir_path):
+	"""
+	Util function to check if a directory is empty
+	"""
+
+	if os.path.exists(dir_path) and not os.path.isfile(dir_path):
+		if not os.listdir(dir_path):
+			return True
+		else:
+			return False
+	else:
+		return False

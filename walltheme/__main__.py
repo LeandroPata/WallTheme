@@ -81,6 +81,13 @@ def main():
 	"""
 	Main function
 	"""
+	utils.create_dir(TEMPLATE_DIR)
+	utils.create_dir(CACHE_DIR)
+
+	is_empty = utils.check_dir_empty(TEMPLATE_DIR)
+
+	if is_empty:
+		utils.init_templates()
 
 	parser = get_args()
 	parse_args_exit(parser)

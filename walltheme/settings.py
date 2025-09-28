@@ -9,3 +9,4 @@ __version__ = '0.1.7'
 
 TEMPLATE_DIR = Path(os.path.expanduser('~/.config/walltheme/templates'))
 CACHE_DIR = Path(os.path.expanduser('~/.cache/walltheme'))
+MODULE_DIR = Path(os.path.dirname(__file__))

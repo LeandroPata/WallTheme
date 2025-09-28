@@ -2,6 +2,7 @@
 Jinja2 setup
 """
 
+import os
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
@@ -59,4 +60,4 @@ def render_templates(
 		output = output_dir / rel.with_suffix('')
 		output.parent.mkdir(parents=True, exist_ok=True)
 		output.write_text(rendered, encoding='utf-8')
-		print(f'Generated {template_path} to {output}')
+		print(f'Generated {os.path.basename(template_path)} to {output}')

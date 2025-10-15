@@ -71,6 +71,7 @@ def init_templates():
 		template_path = os.path.join(module_templates, template)
 		shutil.copy2(template_path, TEMPLATE_DIR)
 		print(f'Generated {template} in {TEMPLATE_DIR}')
+	print('')
 
 
 def create_dir(dir_path):
@@ -86,10 +87,8 @@ def check_dir_empty(dir_path):
 	Util function to check if a directory is empty
 	"""
 
-	if os.path.exists(dir_path) and not os.path.isfile(dir_path):
-		if not os.listdir(dir_path):
-			return True
-		else:
-			return False
-	else:
-		return False
+	return bool(
+		os.path.exists(dir_path)
+		and not os.path.isfile(dir_path)
+		and not os.listdir(dir_path)
+	)

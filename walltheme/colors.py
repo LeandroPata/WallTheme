@@ -29,7 +29,7 @@ def get_dominant_colors(image_path: str, max_colors: int = 5) -> List[dict]:
 		output = subprocess.check_output(cmd, text=True, stderr=subprocess.STDOUT)
 		# print(output)
 	except subprocess.CalledProcessError as exc:
-		print('dominant-colours failed:', exc)
+		print('dominant-colours error:', exc)
 		print('Output:', exc.output)
 		raise
 
@@ -115,7 +115,7 @@ def gen_theme(image_path: str, colors: List[dict]) -> Dict[str, str]:
 				prefix = 'quinary'
 			case _:
 				prefix = f'color{int((len(theme) - 1) / 3)}'
-				print(prefix)
+				# print(prefix)
 
 		dark = adjust_lightness(color['hex'], 0.5)
 

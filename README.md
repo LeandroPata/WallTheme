@@ -44,6 +44,39 @@ cargo install dominant-colours
 pipx install walltheme
 ```
 
+- Update WallTheme:
+
+```shell
+pipx upgrade walltheme
+```
+
+- Uninstall WallTheme:
+
+```shell
+pipx uninstall walltheme
+```
+
+- Uninstall dominant-colours:
+
+```shell
+cargo uninstall dominant-colours
+```
+
+## Usage
+
+```shell
+walltheme /path/to/image.png
+```
+
+| Args | Description |
+| -------- | ----------- |
+| -m, --max-colors | Sets how many colors are used from an image (Default: 5) |
+| -v, --version     | Shows the current version of WallTheme |
+
+All templates are stored in "~/.config/walltheme/templates" (or where your config directory is set in XDG);
+
+All generated color themes are stored in  "~/.cache/walltheme" (or where your cache directory is set in XDG);
+
 ## Backend
 
 The backend to find the dominant colors from images is [llaisdy's dominant-colours](https://github.com/llaisdy/dominant-colours) command line tool, it **IS NOT** created by me.
@@ -74,3 +107,10 @@ Both [pywal](https://github.com/dylanaraps/pywal) and [wallust](https://codeberg
 [Matugen](https://github.com/InioX/matugen) did choose the dominant color for the theming the grand majority of the times, but it takes into account only a single color, and the color tones of color schemes themselves are not based on the color itself, but on what the color is (red, green, blue, etc), resulting in a lot of similar looking themes and mismatching secondary and tertiary colors.
 
 This tool (in my biased opinion), combines the best of both worlds.
+
+## TO DO
+
+- Add automated testing;
+- Create separate folders for each image in the cache folder, to store the themes for that image and reuse them instead of generating them each time;
+- Add a quiet argument without any output;
+- Add an argument to output the theme directly to the terminal instead of to a file (probably json only);

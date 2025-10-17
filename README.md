@@ -38,6 +38,14 @@ cargo install dominant-colours
 cargo install dominant-colours
 ```
 
+- Uninstall dominant-colours:
+
+```shell
+cargo uninstall dominant-colours
+```
+
+### Using pipx:
+
 - Install WallTheme:
 
 ```shell
@@ -56,10 +64,24 @@ pipx upgrade walltheme
 pipx uninstall walltheme
 ```
 
-- Uninstall dominant-colours:
+### Using pip:
+
+- Install WallTheme:
 
 ```shell
-cargo uninstall dominant-colours
+pip install walltheme
+```
+
+- Update WallTheme:
+
+```shell
+pip install walltheme --upgrade
+```
+
+- Uninstall WallTheme:
+
+```shell
+pip uninstall walltheme
 ```
 
 ## Usage

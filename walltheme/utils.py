@@ -6,10 +6,23 @@ import logging
 import os
 import shutil
 import sys
+import traceback
 
 from PIL import Image
 
-from .settings import MODULE_DIR, TEMPLATE_DIR
+from .settings import MODULE_DIR
+
+
+def setup_logging():
+	"""Logging config."""
+	logging.basicConfig(
+		format=('\x1b[38;5;39m%(module)s:\x1b[37m %(message)s'),
+		level=logging.INFO,
+		stream=sys.stdout,
+	)
+	logging.addLevelName(logging.ERROR, '\x1b[38;5;203m')
+	logging.addLevelName(logging.INFO, '\x1b[32m')
+	logging.addLevelName(logging.WARNING, '\x1b[33m')
 
 
 def split_theme(theme: dict):
@@ -42,8 +55,11 @@ def is_valid_image(image):
 	try:
 		with Image.open(image) as img:
 			img.verify()
+			# print(f'{image}: True')
 			return True
 	except (IOError, SyntaxError):
+		# traceback.print_exc()
+		# print(f'{image}: False')
 		return False
 
 
@@ -60,7 +76,7 @@ def get_image(image):
 	return image_path
 
 
-def init_templates():
+def init_templates(output_dir):
 	"""
 	Initializes the included templates in the correct location
 	"""
@@ -69,8 +85,9 @@ def init_templates():
 
 	for template in os.listdir(module_templates):
 		template_path = os.path.join(module_templates, template)
-		shutil.copy2(template_path, TEMPLATE_DIR)
-		print(f'Generated {template} in {TEMPLATE_DIR}')
+		shutil.copy2(template_path, output_dir)
+		# print(f'Generated {template} in {output_dir}')
+		logging.info('Generated %s in %s', template, output_dir)
 	print('')
 
 

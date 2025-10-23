@@ -18,6 +18,12 @@ walltheme = "walltheme.__main__:main"
 version = { attr = "walltheme.settings.__version__" }
 readme = { file = ["README.md"], content-type = "text/markdown" }
 
+## Pytest configuration
+[tool.pytest.ini_options]
+log_cli = true
+console_output_style = 'count'
+addopts = '--capture=tee-sys'
+
 ## Ruff preferences
 [tool.ruff]
 indent-width = 2

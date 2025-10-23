@@ -3,6 +3,7 @@ WallTheme by Leandro Pata
 """
 
 import argparse
+import logging
 import sys
 
 from . import colors, jinja, utils
@@ -37,6 +38,13 @@ def get_args() -> argparse.Namespace:
 		help='Print "walltheme" version',
 	)
 
+	arg.add_argument(
+		'-q',
+		'--quiet',
+		action='store_true',
+		help="Don't print anything to the terminal",
+	)
+
 	return arg
 
 
@@ -65,6 +73,9 @@ def parse_args(parser):
 	"""
 
 	args = parser.parse_args()
+
+	if args.quiet:
+		logging.getLogger().disabled = True
 
 	if args.image:
 		image = utils.get_image(args.image)

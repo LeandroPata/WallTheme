@@ -16,7 +16,6 @@ def get_dominant_colors(image_path: str, max_colors: int = 5) -> List[dict]:
 	"""
 	Get n (max_colors) dominant colors from the image provided
 	"""
-
 	cmd = [
 		'dominant-colours',
 		image_path,
@@ -50,7 +49,7 @@ def adjust_lightness(color, amount):
 	Generates a new color from the original color according to the amount provided
 	Darker color if amount < 1 and lighter color if amount > 1
 	"""
-
+	# print(color)
 	c = color
 	c = colorsys.rgb_to_hls(*mc.to_rgb(c))
 
@@ -59,6 +58,7 @@ def adjust_lightness(color, amount):
 		c[0], max(0, min(1, amount * c[1])), c[2]
 	)
 
+	# print(f'{mc.to_rgb(color)} : {adjusted_color}')
 	return mc.to_hex(adjusted_color)
 
 
@@ -66,9 +66,9 @@ def is_light(rgb: tuple):
 	"""
 	Checks if the color is too light, to properly adjust it later
 	"""
-
 	[r, g, b] = rgb
-	hsp = math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))
+	hsp = round(math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b)), 2)
+	# print(f'{rgb}: {hsp}')
 
 	if hsp > 75:
 		return True
@@ -77,19 +77,60 @@ def is_light(rgb: tuple):
 
 
 def is_dark(rgb: tuple):
+	"""
+	Checks if the color is too dark, to properly adjust it later
+	"""
 	[r, g, b] = rgb
-	hsp = math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b))
+	hsp = round(math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b)), 2)
+	# print(f'{rgb}: {hsp}')
 
 	if hsp < 35:
 		return True
 	return False
 
 
+def to_full_rgb(rgb: tuple):
+	"""
+	Converts from Unit RGB (0-1) to 'full' RGB (0-255)
+	"""
+	if len(rgb) > 3:
+		raise RuntimeError('Not a valid RGB format')
+
+	full_rgb = tuple()
+
+	for i in rgb:
+		if i >= 1:
+			full_rgb += (255,)
+		else:
+			full_rgb += (min(round(i * 256), 255),)
+
+	# print(f'full_rgb: {full_rgb}')
+	return full_rgb
+
+
+def to_unit_rgb(rgb: tuple):
+	"""
+	Converts from 'full' RGB (0-255) to RGB (0-1)
+	"""
+	if len(rgb) > 3:
+		raise RuntimeError('Not a valid RGB format')
+
+	unit_rgb = tuple()
+
+	for i in rgb:
+		if i >= 255:
+			unit_rgb += (1.0,)
+		else:
+			unit_rgb += (round(i / 256, 3),)
+
+	# print(f'unit_rgb: {unit_rgb}')
+	return unit_rgb
+
+
 def gen_theme(image_path: str, colors: List[dict]) -> Dict[str, str]:
 	"""
 	Generates the theme from the dominant colors obtained previously
 	"""
-
 	theme = {}
 	theme['wallpaper'] = image_path
 
@@ -100,7 +141,9 @@ def gen_theme(image_path: str, colors: List[dict]) -> Dict[str, str]:
 	theme['foreground'] = foreground
 	theme['cursor'] = foreground
 
-	#
+	# 0-3 is wallpaper url, background, foreground and cursor respectively
+	# from 4 onwards are colors and their respective darker and lighter tones
+	# 4-6, 7-9, 10-12, 13-15, etc
 	for color in colors:
 		match len(theme):
 			case 4:
@@ -123,6 +166,8 @@ def gen_theme(image_path: str, colors: List[dict]) -> Dict[str, str]:
 		# I first check if the color is very light to adjust
 		# how light to generate the new tone
 		color_lightness = is_light(color['rgb'])
+		# print(f'{color_lightness} : {is_light(to_unit_rgb(color["rgb"]))}')
+
 		light = (
 			adjust_lightness(color['hex'], 1.5)
 			if color_lightness

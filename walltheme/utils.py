@@ -29,7 +29,6 @@ def split_theme(theme: dict):
 	"""
 	Splits the various types of data to facilitate the creation of templates
 	"""
-
 	i = 0
 	wallpaper = ''
 	special = {}
@@ -51,7 +50,6 @@ def is_valid_image(image):
 	"""
 	Checks if image is valid
 	"""
-
 	try:
 		with Image.open(image) as img:
 			img.verify()
@@ -67,7 +65,6 @@ def get_image(image):
 	"""
 	Gets the image's absolute path if it is valid
 	"""
-
 	if not os.path.isfile(image) or not is_valid_image(image):
 		logging.error('No valid image found!')
 		sys.exit(1)
@@ -80,7 +77,6 @@ def init_templates(output_dir):
 	"""
 	Initializes the included templates in the correct location
 	"""
-
 	module_templates = os.path.join(MODULE_DIR, 'templates')
 
 	for template in os.listdir(module_templates):
@@ -95,17 +91,25 @@ def create_dir(dir_path):
 	"""
 	Util function to create a directory
 	"""
-
 	os.makedirs(dir_path, exist_ok=True)
 
 
-def check_dir_empty(dir_path):
+def is_dir(dir_path):
+	"""
+	Util function to check if is a directory
+	"""
+	return bool(os.path.exists(dir_path) and os.path.isdir(dir_path))
+
+
+def is_dir_empty(dir_path):
 	"""
 	Util function to check if a directory is empty
 	"""
+	return bool(is_dir(dir_path) and not os.listdir(dir_path))
 
-	return bool(
-		os.path.exists(dir_path)
-		and not os.path.isfile(dir_path)
-		and not os.listdir(dir_path)
-	)
+
+def is_file(file_path):
+	"""
+	Util function to check if is a directory
+	"""
+	return bool(os.path.exists(file_path) and os.path.isfile(file_path))

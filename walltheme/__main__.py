@@ -14,7 +14,6 @@ def get_args() -> argparse.Namespace:
 	"""
 	Gets the arguments passed to the program
 	"""
-
 	arg = argparse.ArgumentParser(
 		prog='walltheme',
 		description="Generate themes from an image's dominant colors",
@@ -52,7 +51,6 @@ def parse_args_exit(parser):
 	"""
 	Arguments restrictions that cause the program to exit
 	"""
-
 	args = parser.parse_args()
 
 	if len(sys.argv) <= 1:
@@ -71,7 +69,6 @@ def parse_args(parser):
 	"""
 	Parses the arguments and generates the theme
 	"""
-
 	args = parser.parse_args()
 
 	if args.quiet:
@@ -95,7 +92,7 @@ def main():
 	utils.create_dir(TEMPLATE_DIR)
 	utils.create_dir(CACHE_DIR)
 	utils.setup_logging()
-	is_empty = utils.check_dir_empty(TEMPLATE_DIR)
+	is_empty = utils.is_dir_empty(TEMPLATE_DIR)
 
 	if is_empty:
 		utils.init_templates(TEMPLATE_DIR)
@@ -104,7 +101,11 @@ def main():
 	parse_args_exit(parser)
 	theme = parse_args(parser)
 
-	jinja.render_templates(TEMPLATE_DIR, CACHE_DIR, theme)
+	jinja.gen_templates(
+		TEMPLATE_DIR,
+		CACHE_DIR,
+		theme,
+	)
 
 
 if __name__ == '__main__':

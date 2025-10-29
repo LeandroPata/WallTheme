@@ -2,6 +2,7 @@
 Tests for utility functions
 """
 
+import filecmp
 import os
 import shutil
 from pathlib import Path
@@ -19,18 +20,6 @@ def test_create_dir():
 	os.rmdir(tmp_dir)
 
 
-def test_dir_check():
-	"""
-	Testing if is a directory
-	"""
-	# Should be True
-	is_dir = utils.is_dir('tests')
-	# Should be True (reversed boolean value for easier understanding)
-	is_not_dir = not utils.is_dir('tests/test_files/test')
-
-	assert is_dir and is_not_dir
-
-
 def test_empty_dir_check():
 	"""
 	Testing if a directory is empty
@@ -43,18 +32,6 @@ def test_empty_dir_check():
 	is_empty = utils.is_dir_empty(tmp_dir)
 	assert is_empty
 	os.rmdir(tmp_dir)
-
-
-def test_file_check():
-	"""
-	Testing if is a directory
-	"""
-	# Should be True
-	is_file = utils.is_file('tests/test_files/test')
-	# Should be True (reversed boolean value for easier understanding)
-	is_not_file = not utils.is_file('tests')
-
-	assert is_file and is_not_file
 
 
 def test_is_valid_image():
@@ -77,9 +54,14 @@ def test_init_templates():
 	"""
 	Testing initializing templates
 	"""
+	template_dir = 'walltheme/templates'
 	tmp_dir = 'tmp'
+
 	utils.create_dir(tmp_dir)
 	utils.init_templates(tmp_dir)
-	is_empty = utils.is_dir_empty(tmp_dir)
-	assert not is_empty
+	result = filecmp.cmpfiles(
+		template_dir, tmp_dir, os.listdir(template_dir), False
+	)
+
+	assert result[0] == os.listdir(template_dir)
 	shutil.rmtree(tmp_dir)

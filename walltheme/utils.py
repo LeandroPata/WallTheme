@@ -94,22 +94,12 @@ def create_dir(dir_path):
 	os.makedirs(dir_path, exist_ok=True)
 
 
-def is_dir(dir_path):
-	"""
-	Util function to check if is a directory
-	"""
-	return bool(os.path.exists(dir_path) and os.path.isdir(dir_path))
-
-
 def is_dir_empty(dir_path):
 	"""
 	Util function to check if a directory is empty
 	"""
-	return bool(is_dir(dir_path) and not os.listdir(dir_path))
-
-
-def is_file(file_path):
-	"""
-	Util function to check if is a directory
-	"""
-	return bool(os.path.exists(file_path) and os.path.isfile(file_path))
+	return bool(
+		os.path.exists(dir_path)
+		and os.path.isdir(dir_path)
+		and not os.listdir(dir_path)
+	)

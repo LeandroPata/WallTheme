@@ -6,8 +6,8 @@ import logging
 import os
 import shutil
 import sys
-import traceback
 
+# import traceback
 from PIL import Image
 
 from .settings import MODULE_DIR
@@ -16,13 +16,13 @@ from .settings import MODULE_DIR
 def setup_logging():
 	"""Logging config."""
 	logging.basicConfig(
-		format=('\x1b[38;5;39m%(module)s:\x1b[37m %(message)s'),
+		format=('[%(levelname)s\033[0m] \x1b[37m%(message)s'),
 		level=logging.INFO,
 		stream=sys.stdout,
 	)
-	logging.addLevelName(logging.ERROR, '\x1b[38;5;203m')
-	logging.addLevelName(logging.INFO, '\x1b[32m')
-	logging.addLevelName(logging.WARNING, '\x1b[33m')
+	logging.addLevelName(logging.ERROR, '\x1b[31mERROR')
+	logging.addLevelName(logging.INFO, '\x1b[38;5;39mINFO')
+	logging.addLevelName(logging.WARNING, '\x1b[33mWARNING')
 
 
 def split_theme(theme: dict):

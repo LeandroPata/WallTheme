@@ -64,4 +64,6 @@ def gen_templates(templates_path: Path, output_dir: Path, theme: dict) -> None:
 			# print(f'Generated {rel.with_suffix("")} to {output}')
 			logging.info('Generated %s to %s', rel.with_suffix(''), output)
 		else:
-			logging.error("The template '%s' has to be '.j2' to be recognized!", rel)
+			logging.warning(
+				"The template '%s' has to be '.j2' to be recognized!", rel
+			)

@@ -3,7 +3,7 @@
 /* Variables */
 :root {
 /* Wallpaper */
---wallpaper: url("/home/pato/Dev/Python/walltheme/tests/test_files/test.jpg");
+--wallpaper: url("walltheme/tests/test_files/test.jpg");
 
 /* Special */
   --background: #070605;

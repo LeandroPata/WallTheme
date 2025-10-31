@@ -1,5 +1,5 @@
 {
-  "wallpaper": "/home/pato/Dev/Python/walltheme/tests/test_files/test.jpg",
+  "wallpaper": "walltheme/tests/test_files/test.jpg",
 
   "background": "#070605",
   "foreground": "#b7a998",

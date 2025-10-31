@@ -14,7 +14,7 @@ def test_gen_templates():
 	"""
 	Testing if color themes are being generated correctly
 	"""
-	test_image = utils.get_image('tests/test_files/test.jpg')
+	test_image = 'walltheme/tests/test_files/test.jpg'
 	test_theme = {
 		'wallpaper': test_image,
 		'background': '#070605',
@@ -41,6 +41,9 @@ def test_gen_templates():
 	test_themes_dir = Path('tests/test_themes')
 	tmp_dir = Path('tmp')
 
+	if tmp_dir.exists():
+		shutil.rmtree(tmp_dir)
+
 	utils.create_dir(tmp_dir)
 	assert utils.is_dir_empty(tmp_dir)
 
@@ -49,6 +52,8 @@ def test_gen_templates():
 	cmp = filecmp.cmpfiles(
 		test_themes_dir, tmp_dir, os.listdir(test_themes_dir), False
 	)
+
+	# print(cmp)
 
 	assert cmp[0] == os.listdir(test_themes_dir)
 

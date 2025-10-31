@@ -61,7 +61,7 @@ jobs:
       - name: Build release distributions
         run: |
           python -m pip install build
-          python -m build -sdist
+          python -m build --sdist
 
       - name: Upload release distributions
         uses: actions/upload-artifact@v4

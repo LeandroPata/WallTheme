@@ -5,7 +5,7 @@ Setting configuration
 import os
 from pathlib import Path
 
-__version__ = '0.2.4'
+__version__ = '1.0.0'
 
 HOME = os.getenv('HOME', os.getenv('USERPROFILE'))
 XDG_CACHE_DIR = os.getenv('XDG_CACHE_HOME', os.path.join(HOME, '.cache'))

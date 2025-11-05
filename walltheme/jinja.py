@@ -2,7 +2,7 @@
 Jinja2 setup
 """
 
-import os
+import logging
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
@@ -14,7 +14,6 @@ def setup_jinja_env(templates_dir: Path) -> Environment:
 	"""
 	Jinja2 environment setup
 	"""
-
 	env = Environment(
 		loader=FileSystemLoader(str(templates_dir)),
 		autoescape=False,
@@ -34,30 +33,37 @@ def setup_jinja_env(templates_dir: Path) -> Environment:
 	return env
 
 
-def render_templates(
-	templates_dir: Path, output_dir: Path, theme: dict
-) -> None:
+def gen_templates(templates_path: Path, output_dir: Path, theme: dict) -> None:
 	"""
-	Render all *.j2 templates in templates_dir into output_dir
-	Templates keep their filename but with the .j2 suffix removed
+	Generates all *.j2 templates in templates_path into output_dir
+	Color themes keep their filename but with the .j2 suffix removed
 	"""
+	if not templates_path.is_dir():
+		raise ValueError('The templates path must be a directory!')
 
-	env = setup_jinja_env(templates_dir)
+	env = setup_jinja_env(templates_path)
 
-	for template_path in templates_dir.rglob('*.j2'):
-		rel = template_path.relative_to(templates_dir)
-		template = env.get_template(str(rel))
-		wallpaper, special, palette = utils.split_theme(theme)
-		context = {
-			'theme': theme,
-			'wallpaper': wallpaper,
-			'special': special,
-			'palette': palette,
-		}
-		rendered = template.render(**context)
+	for template_path in templates_path.iterdir():
+		rel = template_path.relative_to(templates_path)
 
-		# Write to output file with same path but strip .j2
-		output = output_dir / rel.with_suffix('')
-		output.parent.mkdir(parents=True, exist_ok=True)
-		output.write_text(rendered, encoding='utf-8')
-		print(f'Generated {rel.with_suffix("")} to {output}')
+		if template_path.suffix == '.j2':
+			template = env.get_template(str(rel))
+			wallpaper, special, palette = utils.split_theme(theme)
+			context = {
+				'theme': theme,
+				'wallpaper': wallpaper,
+				'special': special,
+				'palette': palette,
+			}
+			rendered = template.render(**context)
+
+			# Write to output file with same path but strip .j2
+			output = output_dir / rel.with_suffix('')
+			output.parent.mkdir(parents=True, exist_ok=True)
+			output.write_text(rendered, encoding='utf-8')
+			# print(f'Generated {rel.with_suffix("")} to {output}')
+			logging.info('Generated %s to %s', rel.with_suffix(''), output)
+		else:
+			logging.warning(
+				"The template '%s' has to be '.j2' to be recognized!", rel
+			)

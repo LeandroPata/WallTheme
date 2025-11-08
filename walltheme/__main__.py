@@ -96,6 +96,7 @@ def main():
 
 	if is_empty:
 		utils.init_templates(TEMPLATE_DIR)
+		print('')
 
 	parser = get_args()
 	parse_args_exit(parser)

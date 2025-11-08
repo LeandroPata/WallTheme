@@ -84,7 +84,6 @@ def init_templates(output_dir):
 		shutil.copy2(template_path, output_dir)
 		# print(f'Generated {template} in {output_dir}')
 		logging.info('Generated %s in %s', template, output_dir)
-	print('')
 
 
 def create_dir(dir_path):

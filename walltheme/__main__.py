@@ -41,7 +41,7 @@ def get_args() -> argparse.Namespace:
 		'-q',
 		'--quiet',
 		action='store_true',
-		help="Don't print anything to the terminal",
+		help="Doesn't print anything to the terminal",
 	)
 
 	return arg

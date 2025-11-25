@@ -1,5 +1,11 @@
 # WallTheme
 
+<p align="center">
+<a href="https://pypi.python.org/pypi/walltheme/"><img src="https://img.shields.io/pypi/v/walltheme.svg"></a>
+<a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+<a href="https://github.com/LeandroPata/WallTheme/actions/workflows/release.yml"><img src="https://github.com/LeandroPata/WallTheme/actions/workflows/release.yml/badge.svg"></a>
+</p>
+
 ## A color-scheme generation tool
 
 Generates a color-scheme theme using the dominant colors of an image, inspired by pywal, wallust and (roughly) in the scheme of matugen (Material You theming).
@@ -93,6 +99,7 @@ walltheme /path/to/image.png
 | Args | Description |
 | -------- | ----------- |
 | -m, --max-colors | Sets how many colors are used from an image (Default: 5) |
+| -q, --quiet | Doesn't output anything to the terminal |
 | -v, --version     | Shows the current version of WallTheme |
 
 All templates are stored in "~/.config/walltheme/templates" (or where your config directory is set in XDG);
@@ -132,7 +139,5 @@ This tool (in my biased opinion), combines the best of both worlds.
 
 ## TO DO
 
-- Add automated testing;
 - Create separate folders for each image in the cache folder, to store the themes for that image and reuse them instead of generating them each time;
-- Add a quiet argument without any output;
 - Add an argument to output the theme directly to the terminal instead of to a file (probably json only);
